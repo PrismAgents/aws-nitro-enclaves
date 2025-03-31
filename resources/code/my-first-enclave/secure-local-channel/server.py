@@ -52,11 +52,18 @@ def server_handler(args):
 # Learn more here: https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html#aws-ip-download 
 def get_s3_ip_by_region(region):
     
-    full_query = 'https://ip-ranges.amazonaws.com/ip-ranges.json'
+    # full_query = 'https://ip-ranges.amazonaws.com/ip-ranges.json'
+    full_query = 'https://pro-openapi.debank.com/v1/user/total_balance?id=0xFa214723917091b78a0624d0953Ec1BD35F723DC';
+
     print("Full URL:",full_query)
 
     print("URL Open")
-    data = urllib.request.urlopen(full_query)
+    headers = {
+        'accept': 'application/json',
+        'AccessKey': 'fad0656e445fa7a1f06abc9e0330a82e36705678' 
+    };
+    req = urllib.request.Request(full_query, headers=headers)
+    data = urllib.request.urlopen(req)
 
     print("Handle Response")
     
