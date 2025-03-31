@@ -9,7 +9,7 @@ ip addr add 127.0.0.1/32 dev lo
 ip link set dev lo up
 
 # Add a hosts record, pointing target site calls to local loopback
-echo "127.0.0.1   ip-ranges.amazonaws.com" >> /etc/hosts
+echo "127.0.0.1   pro-openapi.debank.com" >> /etc/hosts
 
 touch /app/libnsm.so
 
