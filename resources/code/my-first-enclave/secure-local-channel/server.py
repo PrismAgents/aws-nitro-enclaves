@@ -53,23 +53,28 @@ def server_handler(args):
 def get_s3_ip_by_region(region):
     
     # full_query = 'https://ip-ranges.amazonaws.com/ip-ranges.json'
-    full_query = 'https://pro-openapi.debank.com/v1/user/total_balance?id=0xFa214723917091b78a0624d0953Ec1BD35F723DC';
+    url = 'https://pro-openapi.debank.com/v1/user/total_balance?id=0xFa214723917091b78a0624d0953Ec1BD35F723DC';
 
-    print("Full URL:",full_query)
+    # url = "https://example.com/total_balance?id=0x1234567890abcdef"  # Replace with your actual URL and wallet ID
 
-    print("URL Open")
     headers = {
-        'accept': 'application/json',
-        'AccessKey': 'fad0656e445fa7a1f06abc9e0330a82e36705678' 
-    };
-    req = urllib.request.Request(full_query, headers=headers)
-    data = urllib.request.urlopen(req)
+        'Accept': 'application/json',
+        'AccessKey': 'fad0656e445fa7a1f06abc9e0330a82e36705678'
+    }
 
-    print("Handle Response")
-    
-    response = json.loads(data.read())
-    print("Response:>>",response)
-    return response
+    req = urllib.request.Request(url, headers=headers, method='GET')
+
+    try:
+        with urllib.request.urlopen(req) as response:
+            if response.status != 200:
+                raise Exception(f"HTTP Error {response.status}")
+            data = json.loads(response.read().decode('utf-8'))
+            print("Response:>>",data)
+            return data
+    except Exception as e:
+        print("get_total_balance error:", e)
+        return None
+
 
 def main():
     parser = argparse.ArgumentParser(prog='vsock-sample')
