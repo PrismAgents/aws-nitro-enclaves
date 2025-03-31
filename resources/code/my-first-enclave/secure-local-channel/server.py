@@ -68,12 +68,8 @@ def get_s3_ip_by_region(region):
     print("Handle Response")
     
     response = json.loads(data.read())
-    ip_ranges = response['prefixes']
-    s3_ips = []
-    for item in ip_ranges:
-        if (item["service"] == "S3") and (item["region"] == region):
-            s3_ips.append(item["ip_prefix"])
-    return s3_ips
+    print("Response:>>",response)
+    return response
 
 def main():
     parser = argparse.ArgumentParser(prog='vsock-sample')
