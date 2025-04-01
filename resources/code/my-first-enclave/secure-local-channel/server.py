@@ -52,6 +52,8 @@ def server_handler(args):
 def get_on_chain_history(user_address):
     print("User Address:>>", user_address)
     url = f"https://pro-openapi.debank.com/v1/user/total_balance?id={user_address}"
+    # or alternatively
+    # url = "https://pro-openapi.debank.com/v1/user/total_balance?id={}".format(user_address)
 
     headers = {
         'Accept': 'application/json',
