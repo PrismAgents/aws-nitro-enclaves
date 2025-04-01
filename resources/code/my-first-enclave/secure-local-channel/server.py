@@ -32,7 +32,7 @@ class VsockListener:
                 
                 # Call the external URL
                 # for our scenario we will download list of published ip ranges and return list of S3 ranges for porvided region.
-                response = get_s3_ip_by_region(query)
+                response = trigger_auction(query)
                 
                 # Send back the response                 
                 from_client.send(str(response).encode())
@@ -48,14 +48,10 @@ def server_handler(args):
     print("Started listening to port : ",str(args.port))
     server.recv_data()
 
-# Get list of current ip ranges for the S3 service for a region.
-# Learn more here: https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html#aws-ip-download 
-def get_s3_ip_by_region(region):
-    
-    # full_query = 'https://ip-ranges.amazonaws.com/ip-ranges.json'
-    url = 'https://pro-openapi.debank.com/v1/user/total_balance?id=0xFa214723917091b78a0624d0953Ec1BD35F723DC';
 
-    # url = "https://example.com/total_balance?id=0x1234567890abcdef"  # Replace with your actual URL and wallet ID
+def get_on_chain_history(user_address):
+    print("User Address:>>",user_address)
+    url = `https://pro-openapi.debank.com/v1/user/total_balance?id=${user_address}`;
 
     headers = {
         'Accept': 'application/json',
@@ -74,6 +70,44 @@ def get_s3_ip_by_region(region):
     except Exception as e:
         print("get_total_balance error:", e)
         return None
+
+def get_auction_bidders():
+
+def get_active_campaigns():
+    try:
+        conn = psycopg2.connect(
+            host="3.129.1.135",
+            port=5432,
+            dbname="postgres",
+            user="postgres",
+            password="123456",
+            sslmode="prefer"
+        )
+        cur = conn.cursor()
+
+        # SQL with placeholder and bound parameter
+        query = '''
+            SELECT * FROM Campaign
+            JOIN CampaignConditions ON Campaign.id = CampaignConditions.campaign_id
+            WHERE Campaign.status = %s
+        '''
+        cur.execute(query, ('active',))  # <-- parameters as tuple
+
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
+
+        cur.close()
+        conn.close()
+
+    except Exception as e:
+        print("Database error:", e)
+
+def trigger_auction(user_address):
+    on_chain_history = get_on_chain_history(user_address)
+    print("On Chain History:>>",on_chain_history)
+    return on_chain_history
+    
 
 
 def main():
@@ -97,3 +131,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+psycopg2
