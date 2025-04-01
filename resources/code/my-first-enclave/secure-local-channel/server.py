@@ -71,8 +71,6 @@ def get_on_chain_history(user_address):
         print("get_total_balance error:", e)
         return None
 
-def get_auction_bidders():
-
 def get_active_campaigns():
     try:
         conn = psycopg2.connect(
