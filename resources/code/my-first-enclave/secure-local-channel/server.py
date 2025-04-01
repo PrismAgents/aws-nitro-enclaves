@@ -91,7 +91,7 @@ def get_active_campaigns():
             JOIN CampaignConditions ON Campaign.id = CampaignConditions.campaign_id
             WHERE Campaign.status = %s
         '''
-        cur.execute(query, ('active',))  # <-- parameters as tuple
+        cur.execute(query, ('active',))
 
         rows = cur.fetchall()
         for row in rows:
@@ -106,6 +106,10 @@ def get_active_campaigns():
 def trigger_auction(user_address):
     on_chain_history = get_on_chain_history(user_address)
     print("On Chain History:>>",on_chain_history)
+    
+    active_campaigns = get_active_campaigns()
+    print("Active Campaigns:>>",active_campaigns)
+    
     return on_chain_history
     
 
