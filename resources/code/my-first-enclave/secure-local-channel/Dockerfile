@@ -1,4 +1,4 @@
-FROM public.ecr.aws/amazonlinux/amazonlinux:minimal
+FROM public.ecr.aws/amazonlinux/amazonlinux:2023
 
 # Install Python and pip
 RUN dnf install -y \
