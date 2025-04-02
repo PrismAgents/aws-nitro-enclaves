@@ -4,11 +4,13 @@ FROM public.ecr.aws/amazonlinux/amazonlinux:minimal
 RUN dnf install -y \
     python3 \
     python3-pip \
-    libpq \
-    iproute
+    postgresql \
+    iproute \
+    && dnf clean all
 
-# Install psycopg3 binary wheel
-RUN pip install "psycopg[binary]"
+# Install psycopg v3 using the prebuilt binary
+RUN pip3 install --no-cache-dir "psycopg[binary]"
+
 
 WORKDIR /app
 
