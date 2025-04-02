@@ -5,6 +5,7 @@ import socket
 import sys
 import json
 import urllib.request
+import asyncio
 
 # Running server you have pass port the server  will listen to. For Example:
 # $ python3 /app/server.py server 5005
@@ -19,7 +20,7 @@ class VsockListener:
         self.sock.bind((socket.VMADDR_CID_ANY, port))
         self.sock.listen(self.conn_backlog)
 
-    def recv_data(self):
+    async def recv_data(self):
         # Receive data from a remote endpoint
         while True:
             try:
@@ -32,7 +33,7 @@ class VsockListener:
                 
                 # Call the external URL
                 # for our scenario we will download list of published ip ranges and return list of S3 ranges for porvided region.
-                response = trigger_auction(query)
+                response = await trigger_auction(query)
                 
                 # Send back the response                 
                 from_client.send(str(response).encode())
@@ -46,10 +47,10 @@ def server_handler(args):
     server = VsockListener()
     server.bind(args.port)
     print("Started listening to port : ",str(args.port))
-    server.recv_data()
+    asyncio.run(server.recv_data())
 
 
-def get_on_chain_history(user_address):
+async def get_on_chain_history(user_address):
     print("User Address:>>", user_address)
     url = f"https://pro-openapi.debank.com/v1/user/total_balance?id={user_address}"
     # or alternatively
@@ -73,7 +74,7 @@ def get_on_chain_history(user_address):
         print("get_total_balance error:", e)
         return None
 
-def get_active_campaigns():
+async def get_active_campaigns():
     try:
         conn = psycopg2.connect(
             host="3.129.1.135",
@@ -94,23 +95,27 @@ def get_active_campaigns():
         cur.execute(query, ('active',))
 
         rows = cur.fetchall()
+        print("Rows:><>>",rows)
         for row in rows:
             print(row)
 
         cur.close()
         conn.close()
 
+        return rows  # Return the fetched rows
+
     except Exception as e:
         print("Database error:", e)
+        return None
 
-def trigger_auction(user_address):
-    on_chain_history = get_on_chain_history(user_address)
+async def trigger_auction(user_address):
+    on_chain_history, active_campaigns = await asyncio.gather(
+        get_on_chain_history(user_address),
+        get_active_campaigns()
+    )
     print("On Chain History:>>",on_chain_history)
     
-    active_campaigns = get_active_campaigns()
-    print("Active Campaigns:>>",active_campaigns)
-    
-    return on_chain_history
+    return on_chain_history, active_campaigns
     
 
 
