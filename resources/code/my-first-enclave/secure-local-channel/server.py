@@ -6,6 +6,7 @@ import sys
 import json
 import urllib.request
 import asyncio
+import psycopg2
 
 # Running server you have pass port the server  will listen to. For Example:
 # $ python3 /app/server.py server 5005
