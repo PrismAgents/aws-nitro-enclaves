@@ -3,6 +3,12 @@
 
 #!/bin/sh
 
+# Install Python and system deps
+RUN yum install -y \
+    python3 \
+    python3-pip \
+    && pip install psycopg && yum clean all
+
 # Assign an IP address to local loopback 
 ip addr add 127.0.0.1/32 dev lo
 

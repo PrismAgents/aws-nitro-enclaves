@@ -6,7 +6,7 @@ import sys
 import json
 import urllib.request
 import asyncio
-import psycopg2
+import psycopg
 
 # Running server you have pass port the server  will listen to. For Example:
 # $ python3 /app/server.py server 5005
@@ -77,7 +77,7 @@ async def get_on_chain_history(user_address):
 
 async def get_active_campaigns():
     try:
-        conn = psycopg2.connect(
+        conn = psycopg.connect(
             host="3.129.1.135",
             port=5432,
             dbname="postgres",
@@ -144,4 +144,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-psycopg2
