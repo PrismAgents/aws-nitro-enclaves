@@ -1,12 +1,14 @@
-# // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# // SPDX-License-Identifier: MIT-0
-
-#vsock demo image
 FROM public.ecr.aws/amazonlinux/amazonlinux:minimal
 
-# Install python for running the server and net-tools for modifying network config
-RUN dnf install python3 iproute python3-pip -y
-RUN pip install psycopg
+# Install Python + pip + libpq and other dependencies
+RUN dnf install -y \
+    python3 \
+    python3-pip \
+    libpq \
+    iproute
+
+# Install psycopg3 binary wheel
+RUN pip install "psycopg[binary]"
 
 WORKDIR /app
 
