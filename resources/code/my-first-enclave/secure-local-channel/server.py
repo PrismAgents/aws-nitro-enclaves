@@ -85,6 +85,8 @@ async def get_active_campaigns():
             sslmode="prefer"
         )
         cur = conn.cursor()
+        print("Connected to database")
+        print("Connection status:", conn.status)
 
         # SQL with placeholder and bound parameter
         query = '''
@@ -114,6 +116,7 @@ async def trigger_auction(user_address):
         get_active_campaigns()
     )
     print("On Chain History:>>",on_chain_history)
+    print("Active Campaigns:>>",active_campaigns)
     
     return on_chain_history, active_campaigns
     
