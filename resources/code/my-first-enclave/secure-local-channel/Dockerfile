@@ -1,16 +1,14 @@
 FROM public.ecr.aws/amazonlinux/amazonlinux:minimal
 
-# Install Python + pip + libpq and other dependencies
+# Install Python and pip
 RUN dnf install -y \
     python3 \
     python3-pip \
-    postgresql \
     iproute \
     && dnf clean all
 
-# Install psycopg v3 using the prebuilt binary
-RUN pip3 install --no-cache-dir "psycopg[binary]"
-
+# Install pg8000 (pure-Python PostgreSQL driver)
+RUN pip3 install --no-cache-dir pg8000
 
 WORKDIR /app
 

@@ -6,7 +6,8 @@ import sys
 import json
 import urllib.request
 import asyncio
-import psycopg
+import pg8000
+
 
 # Running server you have pass port the server  will listen to. For Example:
 # $ python3 /app/server.py server 5005
@@ -77,14 +78,15 @@ async def get_on_chain_history(user_address):
 
 async def get_active_campaigns():
     try:
-        conn = psycopg.connect(
-            host="3.129.1.135",
-            port=5432,
-            dbname="postgres",
+        
+        conn = pg8000.connect(
             user="postgres",
             password="123456",
-            sslmode="prefer"
+            host="3.129.1.135",
+            port=5432,
+            database="postgres"
         )
+
         cur = conn.cursor()
         print("Connected to database")
         print("Connection status:", conn.status)
