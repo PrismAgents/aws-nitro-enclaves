@@ -24,7 +24,7 @@ class VsockListener:
         # Receive data from a remote endpoint
         while True:
             try:
-                print("Let's accept stuff")
+                print("Enclave server waiting for client connection...")
                 (from_client, (remote_cid, remote_port)) = self.sock.accept()
                 print("Connection from " + str(from_client) + str(remote_cid) + str(remote_port))
                 
@@ -46,7 +46,7 @@ class VsockListener:
 def server_handler(args):
     server = VsockListener()
     server.bind(args.port)
-    print("Started listening to port : ",str(args.port))
+    print("Enclave server listening to port : ",str(args.port))
     asyncio.run(server.recv_data())
 
 
