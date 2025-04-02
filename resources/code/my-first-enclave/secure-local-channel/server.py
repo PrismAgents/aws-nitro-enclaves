@@ -83,7 +83,7 @@ async def get_active_campaigns():
             user="postgres",
             password="123456",
             host="127.0.0.1",
-            port=5432,
+            port=5433,
             database="postgres"
         )
 
