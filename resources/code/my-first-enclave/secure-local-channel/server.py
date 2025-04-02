@@ -89,7 +89,6 @@ async def get_active_campaigns():
 
         cur = conn.cursor()
         print("Connected to database")
-        print("Connection status:", conn.status)
 
         # SQL with placeholder and bound parameter
         query = '''
