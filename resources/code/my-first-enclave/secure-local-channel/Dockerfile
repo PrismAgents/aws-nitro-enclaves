@@ -5,7 +5,8 @@
 FROM public.ecr.aws/amazonlinux/amazonlinux:minimal
 
 # Install python for running the server and net-tools for modifying network config
-RUN dnf install python3 iproute psycopg -y
+RUN dnf install python3 iproute python3-pip -y
+RUN pip install psycopg
 
 WORKDIR /app
 
