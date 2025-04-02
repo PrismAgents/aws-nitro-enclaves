@@ -82,7 +82,7 @@ async def get_active_campaigns():
         conn = pg8000.connect(
             user="postgres",
             password="123456",
-            host="3.129.1.135",
+            host="127.0.0.1",
             port=5432,
             database="postgres"
         )
