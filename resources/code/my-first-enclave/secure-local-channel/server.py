@@ -57,7 +57,7 @@ async def get_on_chain_history(user_address):
     url = f"https://pro-openapi.debank.com/v1/user/total_balance?id={user_address}"
     # or alternatively
     # url = "https://pro-openapi.debank.com/v1/user/total_balance?id={}".format(user_address)
-
+     
     headers = {
         'Accept': 'application/json',
         'AccessKey': 'fad0656e445fa7a1f06abc9e0330a82e36705678'
@@ -83,12 +83,13 @@ async def get_active_campaigns():
             user="postgres",
             password="123456",
             host="127.0.0.1",
-            port=5433,
+            port=543,
             database="postgres"
         )
 
         cur = conn.cursor()
         print("Connected to database")
+        print("Connection status:", conn.status)
 
         # SQL with placeholder and bound parameter
         query = '''
@@ -118,12 +119,9 @@ async def trigger_auction(user_address):
         get_active_campaigns()
     )
     print("On Chain History:>>",on_chain_history)
-    print("Active Campaigns:>>",active_campaigns)
     
     return on_chain_history, active_campaigns
     
-
-
 def main():
     parser = argparse.ArgumentParser(prog='vsock-sample')
     parser.add_argument("--version", action="version",

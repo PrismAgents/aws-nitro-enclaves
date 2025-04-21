@@ -33,13 +33,13 @@ class VsockStream:
         self.sock.send(data.encode())
         print("Data Sent ", data)
         # receiving responce back
-        data =  self.sock.recv(1024).decode()  # receive response
+        data =  self.sock.recv(65536).decode()  # receive response
         print('Received from server: ' + data)  # show in terminal
         self.sock.close()
 
 
 def client_handler(args):
-    # creat socket tream to the Nitro Enclave
+    # creat socket stream to the Nitro Enclave
     client = VsockStream()
     endpoint = (args.cid, args.port)
     print("Endpoint Arguments ", str(args.cid), str(args.port))
